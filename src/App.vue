@@ -1,30 +1,28 @@
 <template>
   <div id="app">
-    11111
     <!-- 根路由出口 -->
     <router-view />
   </div>
 </template>
+<script lang="ts">
+import Vue from 'vue'
+import request from '@/utils/request'
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+request({
+  method: 'GET',
+  url: 'boss/v2/api-docs?group=edu-boss-boot'
+}).then(res => {
+  console.log(res)
+})
 
-nav {
-  padding: 30px;
+export default Vue.extend({
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+})
+</script>
+<style lang="scss" scoped>
+// @import '~@/styles/variables.scss';
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+.text {
+  color: $warning-color;
 }
 </style>
