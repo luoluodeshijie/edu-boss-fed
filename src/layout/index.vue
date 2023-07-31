@@ -6,10 +6,11 @@
       <el-container>
         <el-header>Header</el-header>
         <el-main>
+          <!-- 子路由出口 -->
           <router-view></router-view>
 
           <meting-js
-            id="2683746999"
+            id="7252241404"
             server="netease"
             type="playlist"
             auto="netease"

@@ -1,5 +1,5 @@
 <template>
-  <div class="advert">1111123</div>
+  <div class="advert">课程管理</div>
 </template>
 
 <script lang="ts">
