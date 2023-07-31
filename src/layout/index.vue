@@ -7,6 +7,24 @@
         <el-header>Header</el-header>
         <el-main>
           <router-view></router-view>
+
+          <meting-js
+            id="2683746999"
+            server="netease"
+            type="playlist"
+            auto="netease"
+            fixed="true"
+            autoplay="true"
+            loop="all"
+            order="list"
+            preload="auto"
+            list-folded="ture"
+            list-max-height="500px"
+            theme="#2382b9"
+            lrc-type="1"
+            storage-name="metingjs">
+          </meting-js>
+
         </el-main>
       </el-container>
     </el-container>
