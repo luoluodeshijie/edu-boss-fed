@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
 import Layout from '@/layout/index.vue'
+import store from '@/store/index'
 
 Vue.use(VueRouter)
 
@@ -14,6 +15,9 @@ const routes: Array<RouteConfig> = [
   {
     path: '/',
     component: Layout,
+    meta: {
+      requiresAuth: true
+    },
     children: [
       {
         path: '',
@@ -68,6 +72,30 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+/**
+ * 全局前置守卫：任何页面的访问都要经过这里
+ * to: 要去哪里的路由信息
+ * from: 从哪里来的路由
+ * next: 通行的标志
+ */
+router.beforeEach((to, from, next) => {
+  // console.log('to', to)
+  // console.log('from', from)
+
+  // to.matched 是一个数组，匹配到的是路由记录
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!store.state.user) {
+      next({
+        name: 'login'
+      })
+    } else {
+      next()
+    }
+  } else {
+    next()
+  }
 })
 
 export default router
