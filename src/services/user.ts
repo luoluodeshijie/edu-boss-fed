@@ -4,6 +4,7 @@
 
 import request from '@/utils/request'
 import qs from 'qs'
+import store from '@/store'
 
 interface User {
   phone: string
@@ -22,5 +23,15 @@ export const login = (data: User) => {
     // 如果 data 是 qs.stringify(data) 转换之后的数据：key=value&key1=value1，则 content-Type 会被设置为 application/x-www-form-urlencoded
     // 如果 data 是 FormData 对象，则 content-Type 是 multipart/form-data
     data: qs.stringify(data) // axios 默认发送的格式是 application/json
+  })
+}
+
+export const getInfo = () => {
+  return request({
+    method: 'GET',
+    url: '/front/user/getInfo',
+    headers: {
+      Authorization: store.state.user.access_token
+    }
   })
 }

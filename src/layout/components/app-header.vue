@@ -11,13 +11,16 @@
         <el-avatar
           shape="square"
           :size="40"
-          src="https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png"
+          :src="userInfo.portrait || require('@/assets/default-avatar.png')"
         ></el-avatar>
         <i class="el-icon-arrow-down el-icon--right"></i>
       </span>
       <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item>用户ID</el-dropdown-item>
-        <el-dropdown-item divided>退出</el-dropdown-item>
+        <el-dropdown-item>{{ userInfo.userName }}</el-dropdown-item>
+        <el-dropdown-item
+          divided
+          @click="handleLogout"
+        >退出</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
   </div>
@@ -25,9 +28,32 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { getInfo } from '@/services/user'
+
+interface UserInfo {
+  portrait: string
+  userName: string
+}
 
 export default Vue.extend({
-  name: 'AppHeader'
+  name: 'AppHeader',
+  data () {
+    return {
+      userInfo: {} as UserInfo // 当前登录用户信息
+    }
+  },
+  created () {
+    this.loadUserInfo()
+  },
+  methods: {
+    async loadUserInfo () {
+      const { data } = await getInfo()
+      this.userInfo = data.content
+    },
+    handleLogout () {
+      console.log('first')
+    }
+  }
 })
 </script>
 

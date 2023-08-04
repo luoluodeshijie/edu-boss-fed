@@ -81,7 +81,7 @@ export default Vue.extend({
           // 1.登录成功，记录登录状态，状态需要能够全局访问（放到 vuex 容器中）
           this.$store.commit('setUser', data.content)
           // 2.然后在访问需要登录的页面的时候判断有没有登录状态（路由拦截器）
-          //   成功：跳转到首页
+          //   成功：跳转到原先要去的页面或者跳转到首页
           this.$router.push(this.$route.query.redirect as string || '/')
           // this.$router.push({
           //   name: 'home'
