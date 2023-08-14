@@ -4,36 +4,36 @@
       <div slot="header" class="clearfix">
         <span>添加菜单</span>
       </div>
-      <el-form ref="form" :model="form" label-width="80px">
-        <el-form-item label="菜单名称">
+      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+        <el-form-item label="菜单名称" prop="name">
           <el-input v-model="form.name"></el-input>
         </el-form-item>
-        <el-form-item label="菜单路径">
+        <el-form-item label="菜单路径" prop="href">
           <el-input v-model="form.href"></el-input>
         </el-form-item>
-        <el-form-item label="上级菜单">
+        <el-form-item label="上级菜单" prop="parentId">
           <el-select v-model="form.parentId" placeholder="请选择上级菜单">
             <el-option label="区域一" value="shanghai"></el-option>
             <el-option label="区域二" value="beijing"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="描述">
+        <el-form-item label="描述" prop="description">
           <el-input v-model="form.description"></el-input>
         </el-form-item>
-        <el-form-item label="前端图标">
+        <el-form-item label="前端图标" prop="icon">
           <el-input v-model="form.icon"></el-input>
         </el-form-item>
-        <el-form-item label="是否显示">
+        <el-form-item label="是否显示" prop="shown">
           <el-radio-group v-model="form.shown">
             <el-radio :label="true">是</el-radio>
             <el-radio :label="false">否</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="排序">
+        <el-form-item label="排序" prop="orderNum">
           <el-input-number v-model="form.orderNum" :min="1" label="描述文件"></el-input-number>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="onSubmit">立即创建</el-button>
+          <el-button type="primary" @click="onSubmit">提交</el-button>
           <el-button>取消</el-button>
         </el-form-item>
       </el-form>
@@ -43,6 +43,8 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { createOrUpdateMenu } from '@/services/menu'
+import { Form } from 'element-ui'
 
 export default Vue.extend({
   name: 'MenuCreate',
@@ -56,12 +58,30 @@ export default Vue.extend({
         orderNum: 0,
         description: '123',
         shown: false
+      },
+      rules: {
+        name: [
+          { required: true, message: '请输入菜单名称', trigger: 'blur' }
+        ],
+        href: [
+          { required: true, message: '请输入菜单路径', trigger: 'blur' }
+        ],
+        parentId: [
+          { required: true, message: '请选择上级菜单', trigger: 'change' }
+        ]
       }
     }
   },
   methods: {
-    onSubmit () {
-      console.log('submit!')
+    async onSubmit () {
+      // 1.表单验证
+      await (this.$refs.form as Form).validate()
+      // 2.验证通过，提交表单
+      const { data } = await createOrUpdateMenu(this.form)
+      if (data.code === '000000') {
+        this.$message.success('提交成功')
+        this.$router.back()
+      }
     }
   }
 })
