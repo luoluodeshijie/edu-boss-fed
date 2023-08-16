@@ -6,6 +6,7 @@ import qs from 'qs'
 
 const request = axios.create({
   // 配置选项
+  baseURL: 'https://mock.apifox.cn/m1/2401164-0-default'
 })
 
 function redirectLogin () {
